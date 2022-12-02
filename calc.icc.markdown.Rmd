@@ -1,0 +1,75 @@
+---
+title: "Calculating Sample Size for ICC"
+author: "Fran Tomlinson"
+date: "02/12/2022"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction
+
+Using the package "ICC.Sample.Size" [^1], we can determine the required sample size for calculating intraclass correlation coefficient in repeatability studies. 
+
+| ICC         | Interpretation      |
+| :---------- | :------------------ |
+| <0.5        | Poor agreement      |
+| 0.5 to <0.75| Moderate agreement  |
+|0.75 to <0.9 | Good agreement      |
+|0.9 to 1.0   | Excellent agreement |
+
+
+```{r - Calculating Sample Size for ICC by Desired Power}
+library(ICC.Sample.Size) # Used to calculate sample size for ICC
+
+# calculateIccSampleSize(p,p0,k,alpha,tails,power,by,step)
+
+# p      hypothesised value of ICC
+# p0     null hypothesis value of p
+# k      number of ratings per subject
+# alpha  desired alpha value for hypothesis testing (default 0.05)
+# tails  number of tails
+# power  desired power of test (default 0.8) 
+
+```
+
+
+### Inter-rater repeatability
+
+```{r - Inter-Rater Repeatability}
+   
+# 2 raters per subject
+# Hypothesised p=0.9 (excellent ICC) versus null hypothesis p0=0.5 (poor ICC)
+
+calculateIccSampleSize(0.9, 0.5, 2, 0.05,2,0.8,"both")
+
+```
+
+
+### Intra-Rater Repeatability
+
+```{r - Intra-Rater Repeatability}
+
+# 3 ratings per subject
+# Hypothesised p=0.9 (excellent ICC) versus null hypothesis p0=0.5 (poor ICC)
+
+calculateIccSampleSize(0.9, 0.5, 3, 0.05,2,0.8,"both")
+
+```
+
+
+Key terms:
+
+* Power: the probability that the test correctly rejects the null hypothesis (sensitivity)
+
+* Alpha: the acceptable probability of a false positive (Type I error)
+
+
+[^1]: Alasdair Rathbone, Saurabh Shaw and Dinesh Kumbhare (2015). ICC.Sample.Size:
+  Calculation of Sample Size and Power for ICC. R package version 1.0.
+  https://CRAN.R-project.org/package=ICC.Sample.Size
+
